@@ -1091,9 +1091,12 @@ function detectCompat(model: Model<"openai-completions">): ResolvedOpenAIComplet
 		supportsStrictMode: true,
 		cacheControlFormat,
 		// Cloudflare Workers AI uses x-session-affinity to route requests to the
-		// same model instance for prefix-cache hits.
+		// same model instance for prefix-cache hits. AI Gateway forwards the
+		// header to upstream providers, so workers-ai/* models routed through
+		// the gateway also get prefix caching; openai/* and anthropic/* upstreams
+		// ignore it.
 		// https://developers.cloudflare.com/workers-ai/features/prompt-caching/
-		sendSessionAffinityHeaders: isCloudflareWorkersAI,
+		sendSessionAffinityHeaders: isCloudflareWorkersAI || isCloudflareAIGateway,
 		supportsLongCacheRetention: true,
 	};
 }

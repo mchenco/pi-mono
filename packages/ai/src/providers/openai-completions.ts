@@ -450,6 +450,10 @@ function createClient(
 		headers["x-session-affinity"] = sessionId;
 	}
 
+	if (isCloudflareProvider(model.provider)) {
+		headers["User-Agent"] = "pi-coding-agent";
+	}
+
 	// Merge options headers last so they can override defaults
 	if (optionsHeaders) {
 		Object.assign(headers, optionsHeaders);

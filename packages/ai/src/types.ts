@@ -41,7 +41,9 @@ export type KnownProvider =
 	| "fireworks"
 	| "opencode"
 	| "opencode-go"
-	| "kimi-coding";
+	| "kimi-coding"
+	| "cloudflare-workers-ai"
+	| "cloudflare-ai-gateway";
 export type Provider = KnownProvider | string;
 
 export type ThinkingLevel = "minimal" | "low" | "medium" | "high" | "xhigh";

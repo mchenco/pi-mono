@@ -182,6 +182,8 @@ const API_KEY_LOGIN_PROVIDERS: Record<string, string> = {
 	[BEDROCK_PROVIDER_ID]: "Amazon Bedrock",
 	"azure-openai-responses": "Azure OpenAI Responses",
 	cerebras: "Cerebras",
+	"cloudflare-ai-gateway": "Cloudflare AI Gateway",
+	"cloudflare-workers-ai": "Cloudflare Workers AI",
 	deepseek: "DeepSeek",
 	fireworks: "Fireworks",
 	google: "Google Gemini",

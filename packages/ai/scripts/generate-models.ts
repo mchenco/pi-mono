@@ -380,10 +380,7 @@ async function loadModelsDevData(): Promise<Model<any>[]> {
 			}
 		}
 
-		// Process Cloudflare Workers AI models. Open-source LLMs hosted on
-		// Cloudflare's GPU network with an OpenAI-compatible endpoint. The
-		// account-scoped URL is resolved at request time by openai-completions
-		// using process.env.CLOUDFLARE_ACCOUNT_ID.
+		// Process Cloudflare Workers AI models
 		if (data["cloudflare-workers-ai"]?.models) {
 			for (const [modelId, model] of Object.entries(data["cloudflare-workers-ai"].models)) {
 				const m = model as ModelsDevModel;

@@ -172,29 +172,30 @@ export AWS_BEDROCK_SKIP_AUTH=1
 export AWS_BEDROCK_FORCE_HTTP1=1
 ```
 
-### Cloudflare Workers AI / Cloudflare AI Gateway
+### Cloudflare AI Gateway
 
-The API key (`CLOUDFLARE_API_KEY`) can be set via `/login` or environment variable. The account/gateway IDs are **environment variables only** — `/login` does not prompt for them.
-
-**Workers AI** (open-weight LLMs on Cloudflare GPUs):
+`CLOUDFLARE_API_KEY` can be set via `/login`. The account ID and gateway slug must be set as environment variables.
 
 ```bash
 export CLOUDFLARE_API_KEY=...           # or use /login
-export CLOUDFLARE_ACCOUNT_ID=...        # 32-char hex from dash.cloudflare.com
+export CLOUDFLARE_ACCOUNT_ID=...
+export CLOUDFLARE_GATEWAY_ID=...        # create at dash.cloudflare.com → AI → AI Gateway
+pi --provider cloudflare-ai-gateway --model "openai/gpt-5.2-codex"
+```
+
+Routes to OpenAI, Anthropic, and Workers AI through the [Unified API](https://developers.cloudflare.com/ai-gateway/usage/unified-api/). Model IDs are `provider/model`, e.g. `openai/gpt-5.2-codex`, `anthropic/claude-sonnet-4-5`, `workers-ai/@cf/moonshotai/kimi-k2.6`.
+
+### Cloudflare Workers AI
+
+`CLOUDFLARE_API_KEY` can be set via `/login`. `CLOUDFLARE_ACCOUNT_ID` must be set as an environment variable.
+
+```bash
+export CLOUDFLARE_API_KEY=...           # or use /login
+export CLOUDFLARE_ACCOUNT_ID=...
 pi --provider cloudflare-workers-ai --model "@cf/moonshotai/kimi-k2.6"
 ```
 
-**AI Gateway** (caching / rate-limiting / analytics in front of OpenAI, Anthropic, and Workers AI via the [Unified API](https://developers.cloudflare.com/ai-gateway/usage/unified-api/)):
-
-```bash
-export CLOUDFLARE_API_KEY=...
-export CLOUDFLARE_ACCOUNT_ID=...
-export CLOUDFLARE_GATEWAY_ID=...        # gateway slug; create one at dash.cloudflare.com → AI → AI Gateway
-pi --provider cloudflare-ai-gateway --model "workers-ai/@cf/moonshotai/kimi-k2.6"
-# Other Unified API model IDs: openai/gpt-5.2-codex, anthropic/claude-sonnet-4-5
-```
-
-If `CLOUDFLARE_ACCOUNT_ID` (or `CLOUDFLARE_GATEWAY_ID` for the gateway) is missing, the request fails immediately with a clear error naming the missing variable. Workers AI also automatically gets [prefix caching](https://developers.cloudflare.com/workers-ai/features/prompt-caching/) discounts because pi's existing `x-session-affinity` header wiring is enabled for this provider.
+Pi automatically sets `x-session-affinity` for [prefix caching](https://developers.cloudflare.com/workers-ai/features/prompt-caching/) discounts.
 
 ### Google Vertex AI
 
